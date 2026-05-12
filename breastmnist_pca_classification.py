@@ -183,8 +183,9 @@ for clf_name, res in cv_results.items():
 
 
 # ─── 6. SCREE PLOT ──────────────────────────────────────────────────────────
+train_idx_vis, _ = next(StratifiedKFold(n_splits=5, shuffle=True, random_state=42).split(X_all, y_all))
 scaler_vis   = StandardScaler()
-X_scaled_vis = scaler_vis.fit_transform(X_all)
+X_scaled_vis = scaler_vis.fit_transform(X_all[train_idx_vis])
 pca_vis      = PCA().fit(X_scaled_vis)
 cumvar       = np.cumsum(pca_vis.explained_variance_ratio_)
 n_90 = np.argmax(cumvar >= 0.90) + 1
